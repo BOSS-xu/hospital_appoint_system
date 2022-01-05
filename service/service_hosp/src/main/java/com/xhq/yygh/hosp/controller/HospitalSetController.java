@@ -2,11 +2,8 @@ package com.xhq.yygh.hosp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhq.yygh.common.exception.YyghException;
 import com.xhq.yygh.common.result.Result;
-import com.xhq.yygh.common.result.ResultCodeEnum;
 import com.xhq.yygh.hosp.service.HospitalSetService;
-import com.xhq.yygh.model.hosp.Hospital;
 import com.xhq.yygh.model.hosp.HospitalSet;
 import com.xhq.yygh.utils.MD5;
 import com.xhq.yygh.vo.hosp.HospitalSetQueryVo;
@@ -23,6 +20,7 @@ import java.util.Random;
 @Api(tags = "医院设置管理")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
+@CrossOrigin
 public class HospitalSetController {
 
     @Autowired
@@ -33,7 +31,6 @@ public class HospitalSetController {
     public Result findAll() {
         List<HospitalSet> list = hospitalSetService.list();
         return Result.ok(list);
-
     }
 
     @ApiOperation("逻辑删除医院设置")
@@ -53,14 +50,14 @@ public class HospitalSetController {
                                @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
         Page<HospitalSet> page = new Page<>(current,size);
         QueryWrapper<HospitalSet> wrapper = new QueryWrapper<>();
-
-        String hoscode = hospitalSetQueryVo.getHoscode();
-        String hosname = hospitalSetQueryVo.getHosname();
-        if (!StringUtils.isEmpty(hosname))
-            wrapper.like("hosname", hosname);
-        if (!StringUtils.isEmpty(hoscode))
-            wrapper.eq("hoscode",hoscode);
-
+        if (!StringUtils.isEmpty(hospitalSetQueryVo)) {
+            String hoscode = hospitalSetQueryVo.getHoscode();
+            String hosname = hospitalSetQueryVo.getHosname();
+            if (!StringUtils.isEmpty(hosname))
+                wrapper.like("hosname", hosname);
+            if (!StringUtils.isEmpty(hoscode))
+                wrapper.eq("hoscode",hoscode);
+        }
         Page<HospitalSet> hospitalSetPage = hospitalSetService.page(page, wrapper);
 
         return Result.ok(hospitalSetPage);
