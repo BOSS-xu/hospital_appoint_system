@@ -2,8 +2,10 @@ package com.xhq.yygh.hosp.service;
 
 import com.xhq.yygh.model.hosp.Department;
 import com.xhq.yygh.vo.hosp.DepartmentQueryVo;
+import com.xhq.yygh.vo.hosp.DepartmentVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 public interface DepartmentService {
@@ -29,4 +31,9 @@ public interface DepartmentService {
      */
     Page<Department> selectPage(Integer page, Integer limit, DepartmentQueryVo departmentQueryVo);
 
+    //根据医院编号，查询医院所有科室列表
+    List<DepartmentVo> findDeptTree(String hoscode);
+
+    //根据科室编号，和医院编号，查询科室名称
+    Object getDepName(String hoscode, String depcode);
 }
