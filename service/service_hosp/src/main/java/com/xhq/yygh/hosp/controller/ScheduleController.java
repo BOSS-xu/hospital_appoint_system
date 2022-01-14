@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
 @Api(tags = "排版信息")
 @RequestMapping("/admin/hosp/schedule")
 public class ScheduleController {
